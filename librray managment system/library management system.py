@@ -1,18 +1,22 @@
 import csv
-file_path = "D:/1ST SEMISTER/librray managment system/library.csv"
+
+# Function to load the library data from the CSV file
+# Function to remove NUL characters from a string
+def remove_nul_characters(text):
+    return text.replace('\x00', '')
 
 # Function to load the library data from the CSV file
 def load_library():
     library = []
-    with open(file_path, "r") as file:
-        csv_reader = csv.DictReader(file)
+    with open("/content/library.csv.xlsx", "r", encoding="ISO-8859-1") as file:
+        csv_reader = csv.DictReader((remove_nul_characters(line) for line in file))
         for row in csv_reader:
             library.append(row)
     return library
 
 # Function to save the library data to the CSV file
 def save_library(library):
-    with open(file_path, "w", newline="") as file:
+    with open("/content/library.csv.xlsx", "w", newline="") as file:
         fieldnames = ["Title", "Author", "ISBN", "Available"]
         csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
         csv_writer.writeheader()
